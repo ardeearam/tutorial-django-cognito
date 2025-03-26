@@ -1,11 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from authlib.integrations.django_client import OAuth
 from django.http import HttpResponse
 from django.urls import reverse
-from authlib.integrations.requests_client import OAuth2Session
 from django.conf import settings
-from django.shortcuts import redirect
 
 oauth = OAuth()
 
