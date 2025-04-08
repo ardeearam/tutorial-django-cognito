@@ -23,7 +23,7 @@ def index(request):
 
 def login(request):
   redirect_uri = request.build_absolute_uri(reverse('authorize'))
-  return oauth.oidc.authorize_redirect(request, redirect_uri)
+  return oauth.oidc.authorize_redirect(request, redirect_uri, identity_provider="COGNITO")
 
 def authorize(request):
   token = oauth.oidc.authorize_access_token(request)
