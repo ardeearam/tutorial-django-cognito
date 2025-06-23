@@ -111,32 +111,36 @@ class AwscdkStack(Stack):
             )
         )
 
-        # Essential outputs only
+        # Use this output as environment variable in our Django app.
         CfnOutput(
             self, "UserPoolId",
             value=user_pool.user_pool_id,
             description="Cognito User Pool ID"
         )
 
+        # Use this output as environment variable in our Django app.
         CfnOutput(
             self, "UserPoolClientId",
             value=user_pool_client.user_pool_client_id,
             description="Cognito User Pool Client ID"
         )
 
-        CfnOutput(
-            self, "HostedUIUrl",
-            value=f"https://{user_pool_domain.domain_name}.auth.{self.region}.amazoncognito.com",
-            description="Cognito Hosted UI URL"
-        )
-
+        # Use this output as environment variable in our Django app.
+        # The Django app will redirect to this URL to initiate the login process.
         CfnOutput(
             self, "LoginUrl",
             value=f"https://{user_pool_domain.domain_name}.auth.{self.region}.amazoncognito.com/login?client_id={user_pool_client.user_pool_client_id}&response_type=code&scope=email+openid+profile&redirect_uri={callback_urls[0]}",
             description="Direct login URL - use this to test login"
         )
-        
 
+        # Use this URL as Authorized redirect URI in Google
+        CfnOutput(
+            self, "AuthorizedRedirectURIs",
+            value=f"https://{user_pool_domain.domain_name}.auth.{self.region}.amazoncognito.com/oauth2/idpresponse",
+            description="Use this URL as Authorized redirect URI in Google"
+        )
+
+        # Use this to debug if we set our AWS_PROFILE correctly.
         CfnOutput(
             self, "CurrentProfile",
             value=f"{profile_name}",
