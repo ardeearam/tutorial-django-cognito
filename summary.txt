@@ -1,5 +1,28 @@
-# Create our AWS CDK directory
+ 
+
+#Login to AWS
+aws sso login --profile demo01
+
+#If you have not configured SSO yet
+aws configure sso
+
+export AWS_PROFILE=demo01
+
+#Check if the SSO login is successful
+aws sts get-caller-identity
+
+Create our AWS CDK directory
 mkdir awscdk
+cd awscdk
+
+npm install -g aws-cdk
+
+# Will generate initial code
+cdk init app --language python
+source .venv/bin/activate
+pip install -r requirements.txt
+cdk bootstrap
+
 
 # Create our Django directory
 mkdir django
