@@ -21,8 +21,61 @@ npm install -g aws-cdk
 cdk init app --language python
 source .venv/bin/activate
 pip install -r requirements.txt
+
+# CDK bootstrap is a one-time setup process that creates essential AWS infrastructure 
+# (S3 bucket for deployment artifacts, IAM roles for permissions, and optionally ECR repository) 
+# in your account and region to enable CDK deployments. 
+# Without bootstrapping, CDK cannot function because it lacks the required 
+# AWS resources and permissions to upload assets and orchestrate CloudFormation 
+# operations through the CDKToolkit stack.
 cdk bootstrap
 
+#Modify awscdk/awscdk/awscdk_stack.py
+
+# Add any additional requirements needed by your CDK stack
+pip install dotenv
+pip freeze > requirements.txt
+
+# Create GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET for your application
+# Go to https://console.cloud.google.com
+
+# Create or Select a Project (e.g. ""Tutorial Django Cognito")
+# Go to "APIs & Services" > "Library"
+# Search for "Google+ API"
+# Click "Enable" (this might already be enabled)
+
+# Go to "APIs & Services" > "OAuth consent screen"
+# If you have filled this up before, you will not see the "External" option again
+# Choose "External" (unless you have a Google Workspace)
+# Fill in required fields:
+# App name: "Tutorial Django Cognito"
+# User support email: Your email
+# Developer contact: Your email
+# Save and continue through the steps
+
+# Go to "APIs & Services" > "Credentials"
+# Click "+ CREATE CREDENTIALS" > "OAuth 2.0 Client IDs"
+# Application type: "Web application"
+# Name: "Tutorial Django Cognito Web Client"
+# Authorized redirect URIs: Add these URLs:
+# https://tutorial-django-cognito-demo01.auth.us-east-1.amazoncognito.com/oauth2/idpresponse
+# (Replace with your actual Cognito domain from CDK outputs)
+# Don't worry about getting this wrong. You can go back later to edit this.
+
+# cdk deployment
+
+
+# Double-check if the AwscdkStack.HostedUIUrl matches our Authorized redirect URI in Google.
+# If not, modify it.
+
+# Take note of the CDK Outputs, especially:
+# AwscdkStack.UserPoolClientId
+# AwscdkStack.UserPoolId
+
+# Test the Cognito Hosted UI by clicking on the value for AwscdkStack.LoginUrl
+# When done correctly, it should go to the "Sign in with Google" > "Choose an Account" page.
+# When properly authenticated, we will be redirected to the our callback URL.
+# As expected, we will land into a 404 page because we have yet to create our Django site.
 
 # Create our Django directory
 mkdir django
