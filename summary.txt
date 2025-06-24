@@ -79,6 +79,7 @@ pip freeze > requirements.txt
 
 # Create our Django directory
 mkdir django
+
 pyenv local 3.11.12
 python --version
 python -m venv .venv
@@ -86,5 +87,13 @@ source .venv/bin/activate
 pip install django
 pip freeze > requirements.txt
 django-admin startproject app .
-python manage.py runserver  
+python manage.py runserver
+
+# Create the front landing page
+
+# Modify/create the following:
+# django/app/templates/home.html
+# django/app/views.py
+# django/app/urls.py
+# django/app/settings.py
 
