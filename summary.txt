@@ -58,21 +58,26 @@ pip freeze > requirements.txt
 # Application type: "Web application"
 # Name: "Tutorial Django Cognito Web Client"
 # Authorized redirect URIs: Add these URLs:
-# https://tutorial-django-cognito-demo01.auth.us-east-1.amazoncognito.com/oauth2/idpresponse
+# https://tutorialklaudsol.auth.us-east-1.amazoncognito.com/oauth2/idpresponse
 # (Replace with your actual Cognito domain from CDK outputs)
 # Don't worry about getting this wrong. You can go back later to edit this.
 
+# Add these values in your .env. Create the file if it doesn't exist yet.
+# GOOGLE_CLIENT_ID=xxxx
+# GOOGLE_CLIENT_SECRET=xxxx
+
 # cdk deployment
 
-
-# Double-check if the AwscdkStack.HostedUIUrl matches our Authorized redirect URI in Google.
+# Double-check if the AwscdkStack.AUTHORIZEDREDIRECTURIS matches our Authorized redirect URI in Google.
 # If not, modify it.
 
-# Take note of the CDK Outputs, especially:
-# AwscdkStack.UserPoolClientId
-# AwscdkStack.UserPoolId
+# Take note of the CDK Outputs and add it to your .env file :
+# COGNITOCLIENTID 
+# COGNITODOMAIN 
+# COGNITOREGION 
+# COGNITOUSERPOOLID
 
-# Test the Cognito Hosted UI by clicking on the value for AwscdkStack.LoginUrl
+# Test the Cognito Hosted UI by clicking on the value for AwscdkStack.LOGINURLTEST
 # When done correctly, it should go to the "Sign in with Google" > "Choose an Account" page.
 # When properly authenticated, we will be redirected to the our callback URL.
 # As expected, we will land into a 404 page because we have yet to create our Django site.
@@ -84,7 +89,7 @@ pyenv local 3.11.12
 python --version
 python -m venv .venv
 source .venv/bin/activate
-pip install django
+pip install django python-jose django-environ django-requests
 pip freeze > requirements.txt
 django-admin startproject app .
 python manage.py runserver
@@ -93,7 +98,11 @@ python manage.py runserver
 
 # Modify/create the following:
 # django/app/templates/home.html
+# django/lib/cognito.py
 # django/app/views.py
 # django/app/urls.py
+
+
 # django/app/settings.py
+# Expose the values in the .env file to the Django App
 

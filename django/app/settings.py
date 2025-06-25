@@ -11,9 +11,30 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+print(f"BASE_DIR: {BASE_DIR}")
+
+# Read .env file
+ENV = environ.Env(DEBUG=(bool, False))
+try:
+  #Development uses .env
+  environ.Env.read_env(os.path.join(BASE_DIR, '.env')) 
+except:
+  #Staging and production uses zappa_settings.json
+  print("No .env file found. Relying on environment variables.")
+  
+
+COGNITOCLIENTID = ENV('COGNITOCLIENTID')
+COGNITODOMAIN = ENV('COGNITODOMAIN')
+COGNITOREGION = ENV('COGNITOREGION')
+COGNITOUSERPOOLID = ENV('COGNITOUSERPOOLID')
+
+# For production, best to use a database-backed session store.
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 
 # Quick-start development settings - unsuitable for production
