@@ -2,4 +2,5 @@ venv/**
 .env
 __pycache__/
 .venv
+zappa_settings.json
 
