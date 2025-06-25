@@ -31,12 +31,12 @@ class AwscdkStack(Stack):
         
         callback_urls = [
 
-            "https://tutorial-django-cognito.klaudsol.com/callback",
+            "https://tutorial-django-cognito.demo.klaudsol.com/callback",
             "http://localhost:8000/callback",
         ]
         
         logout_urls = [
-            "https://tutorial-django-cognito.klaudsol.com/",
+            "https://tutorial-django-cognito.demo.klaudsol.com/",
             "http://localhost:8000/",
         ]
         

@@ -6,8 +6,9 @@ from jose.exceptions import JWTError
 
 def verify_cognito_token(token, user_pool_id, client_id, region='us-east-1'):
     """Minimal secure token validation using python-jose"""
+    user_pool_url = f"https://cognito-idp.{region}.amazonaws.com/{user_pool_id}"
     # Get Cognito's public keys
-    jwks_url = f"https://cognito-idp.{region}.amazonaws.com/{user_pool_id}/.well-known/jwks.json"
+    jwks_url = f"{user_pool_url}/.well-known/jwks.json"
     jwks_response = requests.get(jwks_url)
     jwks = jwks_response.json()
     
@@ -35,7 +36,7 @@ def verify_cognito_token(token, user_pool_id, client_id, region='us-east-1'):
             key,
             algorithms=['RS256'],
             audience=client_id,
-            issuer=f"https://cognito-idp.{region}.amazonaws.com/{user_pool_id}",
+            issuer=user_pool_url,
             options={
                 'verify_at_hash': False  # Disable at_hash validation since we don't have access_token
             }

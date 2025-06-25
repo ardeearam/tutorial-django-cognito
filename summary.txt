@@ -89,7 +89,8 @@ pyenv local 3.11.12
 python --version
 python -m venv .venv
 source .venv/bin/activate
-pip install django python-jose django-environ django-requests
+pip install django python-jose django-environ django-requests zappa 
+pip install --upgrade setuptools
 pip freeze > requirements.txt
 django-admin startproject app .
 python manage.py runserver
@@ -105,4 +106,17 @@ python manage.py runserver
 
 # django/app/settings.py
 # Expose the values in the .env file to the Django App
+# Configure sessions via SESSION_ENGINE
+# Modify ALLOWED_HOSTS
 
+# Deploy via Zappa
+zappa init
+# Modify zappa_settings.json
+# Add environment_variables
+# Add domain. Must match with our callback URLs in awscdk_stack.py
+# Add certificate_arn
+
+zappa deploy demo01
+zappa certify demo01
+
+# Visit demo URL at https://tutorial-django-cognito.demo.klaudsol.com/
